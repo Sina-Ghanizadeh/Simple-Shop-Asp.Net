@@ -1,0 +1,22 @@
+﻿@model Product
+<div class="col-4">
+    <div class="card">
+        <img src="/images/@Model.PicPath.Pic1Path" height="450" class="card-img-top" />
+
+        <div class="card-body">
+            <h5 class="card-title">@Model.Title</h5>
+            <p class="card-text">
+                <del>@Model.Price</del>
+            </p>
+            <p class="card-text">
+                <mark class="mark">@Model.DiscountPrice</mark>
+            </p>
+
+            <a asp-action="Detail" asp-controller="Home" asp-route-id="@Model.Id"  class="btn btn-outline-primary">Product Detail</a>
+            <a asp-controller="Home" asp-action="AddtoCart" asp-route-id="@Model.Id"
+               class="btn btn-outline-primary">
+                Add To Cart
+            </a>
+        </div>
+    </div>
+</div>

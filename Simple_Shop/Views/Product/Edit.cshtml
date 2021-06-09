@@ -1,0 +1,86 @@
+﻿@model Simple_Shop.Models.ViewModels.UpdateProductVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" hidden />
+            <input asp-for="PicPath_Id" hidden />
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiscountPrice" class="control-label"></label>
+                <input asp-for="DiscountPrice" class="form-control" />
+                <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuantityInStock" class="control-label"></label>
+                <input asp-for="QuantityInStock" class="form-control" />
+                <span asp-validation-for="QuantityInStock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Product Logo Picture</label>
+                <input asp-for="Pic1" class="form-control" multiple />
+                <span asp-validation-for="Pic1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Product Detail Picture 1</label>
+                <input asp-for="Pic2" class="form-control" multiple />
+                <span asp-validation-for="Pic2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Product Detail Picture 2</label>
+                <input asp-for="Pic3" class="form-control" multiple />
+                <span asp-validation-for="Pic3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Product Detail Picture 3</label>
+                <input asp-for="Pic4" class="form-control" multiple />
+                <span asp-validation-for="Pic4" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Product Detail Picture 4</label>
+                <input asp-for="Pic5" class="form-control" multiple />
+                <span asp-validation-for="Pic5" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Product Detail Picture 5</label>
+                <input asp-for="Pic6" class="form-control" multiple />
+                <span asp-validation-for="Pic6" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" asp-route-id="Id" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

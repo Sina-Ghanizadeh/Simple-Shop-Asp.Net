@@ -1,0 +1,52 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Cart";
+}
+
+@if (Model != null)
+{
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th> Image </th>
+                <th>Product Name</th>
+                <th>Count</th>
+                <th>Price</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.OrderDetail)
+            {
+                <tr>
+                    <td>
+                        <img src="/images/@item.Product.PicPath.Pic1Path" alt="Alternate Text" class="img-thumbnail" height="160" width="160" />
+                    </td>
+                    <td>@item.Product.Title</td>
+                    <td>@item.Count</td>
+
+                    <td>@(item.Count * item.Price)</td>
+                    <td>
+                        <a class="btn btn-danger" asp-action="RemoveItem"
+                           asp-controller="Home" asp-route-detailId="@item.DetailId">Remove</a>
+                    </td>
+
+
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    <h5>Sum : @Model.OrderDetail.Sum(s => s.Count * s.Price)</h5>
+
+}
+else
+{
+    <div class="alert alert-danger">
+        Your Cart Is Empty
+    </div>
+}
