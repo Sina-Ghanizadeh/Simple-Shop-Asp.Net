@@ -39,6 +39,18 @@
     <br />
     <br />
     <br />
+    <br />
+    <h6>
+        <p>
+            Likes ❤  :  @Model.Product.Likes
+        </p>
+
+
+
+    </h6>
+    <a asp-action="Like" asp-controller="Home" asp-route-id=@Model.Product.Id class="btn btn-outline-danger" > Like 👍 </a>
+    <br />
+
     <p class="py-5 text-justify">@Model.Product.Description</p>
 
     <p>Price : @Model.Product.Price</p>

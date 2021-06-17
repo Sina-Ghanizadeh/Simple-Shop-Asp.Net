@@ -1,0 +1,53 @@
+﻿@model Simple_Shop.Models.ViewModels.ProductFilterViewModel
+<hr />
+<form asp-action="Filter" method="post">
+    <ul class="list-group">
+        
+        
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <input asp-for="PriceFrom" placeholder="حداقل قیمت" />
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <input asp-for="PriceTo" placeholder="حداکثر قیمت" />
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <input asp-for="Name" placeholder="نام محصول" />
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+            <input asp-for="SoldCount" />
+            <label> پرفروشترین</label>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+            <input asp-for="CreatedDate" />
+            <label> جدیدترین</label>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+            <input asp-for="MaxPrice" />
+            <label> گران ترین</label>
+        </li>
+
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+            <input asp-for="MinPrice" />
+            <label> ارزان ترین</label>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+            <input asp-for="Likes" />
+            <label> محبوب ترین</label>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <input class="btn btn-outline-primary" type="submit" value="اعمال فیلترها" />
+        </li>
+
+    </ul>
+    
+    
+
+</form>

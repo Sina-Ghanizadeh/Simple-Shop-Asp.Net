@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +22,7 @@ namespace Simple_Shop.Models.ViewModels
         [Required]
         public int QuantityInStock { get; set; }
 
-
+        public DateTime CreatedDate { get; set; }
 
         public IFormFile Pic1 { get; set; }
         public IFormFile Pic2 { get; set; }
@@ -30,7 +31,10 @@ namespace Simple_Shop.Models.ViewModels
         public IFormFile Pic5{ get; set; }
         public IFormFile Pic6 { get; set; }
 
-        
+
+        public List<Category> Categories { get; set; }
+        public IEnumerable<int> SelectedGroup{ get; set; }
+
 
     }
 }

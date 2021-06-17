@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Simple_Shop.Data;
 
 namespace Simple_Shop.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210615144050_AddCategoryAndRelationbetweenProduct")]
+    partial class AddCategoryAndRelationbetweenProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,39 +36,7 @@ namespace Simple_Shop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "کالاهای دیجیتال ",
-                            Name = "کالاهای دیجیتال"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "لباس و پوشاک ",
-                            Name = "لباس و پوشاک"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "لوازم خانگی",
-                            Name = "لوازم خانگی"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "لوازم بچه",
-                            Name = "لوازم بچه"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "لوازم ماشین",
-                            Name = "لوازم ماشین"
-                        });
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Simple_Shop.Models.CategoryToProduct", b =>
@@ -81,7 +51,7 @@ namespace Simple_Shop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CategoryToProducts");
+                    b.ToTable("CategoryToProduct");
                 });
 
             modelBuilder.Entity("Simple_Shop.Models.Order", b =>
@@ -167,18 +137,12 @@ namespace Simple_Shop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("DiscountPrice")
                         .HasColumnType("Money");
-
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
 
                     b.Property<int>("PicPath_Id")
                         .HasColumnType("int");

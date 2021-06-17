@@ -1,15 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Simple_Shop.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Simple_Shop.Data.Repositories;
 
 namespace Simple_Shop
 {
@@ -26,11 +22,13 @@ namespace Simple_Shop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<DataBaseContext>(options => {
-
+            services.AddDbContext<DataBaseContext>(options =>
+            {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            
             });
+
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<IFilterRepository, FilterRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

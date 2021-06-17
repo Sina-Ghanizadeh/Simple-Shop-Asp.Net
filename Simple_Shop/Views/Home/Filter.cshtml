@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "اعمال فیلتر ها";
+}
+
+
+
+
+
+
+<hr />
+
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <partial name="_BoxProduct" model="@item" />
+
+    }
+
+</div>

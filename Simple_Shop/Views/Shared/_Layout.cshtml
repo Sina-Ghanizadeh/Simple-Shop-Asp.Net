@@ -27,21 +27,38 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ShowCart">Show Cart </a>
                         </li>
-
+                       
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+   
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="col">
+                    <div class="">
+                        @await Component.InvokeAsync("ProductGroupComponent")
+                    </div>
+                    <div class="">
+
+                        @await Component.InvokeAsync("ProductFilterComponent")
+
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            <div class="col-md-9"> @RenderBody() </div>
+
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Sina Ghanizadeh 
+            &copy; 2021 - Sina Ghanizadeh
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -25,7 +25,7 @@ namespace Simple_Shop.Controllers
         // GET: ProductController
         public ActionResult Index()
         {
-            var product = _context.Products.Include(p=>p.PicPath).ToList();
+            var product = _context.Products.Include(p => p.PicPath).ToList();
 
             return View(product);
         }
@@ -35,7 +35,11 @@ namespace Simple_Shop.Controllers
         // GET: ProductController/Create
         public ActionResult Create()
         {
-            return View();
+            InsertProductVM insert = new()
+            {
+                Categories = _context.Categories.ToList()
+            };
+            return View(insert);
         }
 
         // POST: ProductController/Create
@@ -47,7 +51,7 @@ namespace Simple_Shop.Controllers
             {
                 return View(model);
             }
-            if (model.Pic1==null|| model.Pic2 == null|| model.Pic3 == null|| model.Pic4== null|| model.Pic5 == null|| model.Pic6 == null)
+            if (model.Pic1 == null || model.Pic2 == null || model.Pic3 == null || model.Pic4 == null || model.Pic5 == null || model.Pic6 == null)
             {
 
                 ModelState.AddModelError("Pic1", "Please Upload 6 Picture for Product");
@@ -85,11 +89,28 @@ namespace Simple_Shop.Controllers
                 Price = model.Price,
                 QuantityInStock = model.QuantityInStock,
                 DiscountPrice = model.DiscountPrice,
-                SoldCount = 0
+                SoldCount = 0,
+                CreatedDate=DateTime.Now,
+                Likes=0
+                
 
             };
             _context.Products.Add(product);
             _context.SaveChanges();
+            if (model.SelectedGroup.Any()&& model.SelectedGroup.Count() >0)
+            {
+                foreach (int i in model.SelectedGroup)
+                {
+                    _context.CategoryToProducts.Add(new CategoryToProduct()
+                    {
+                        CategoryId = i,
+                        ProductId=product.Id
+
+                    });
+                }
+                _context.SaveChanges();
+            }
+            
             return RedirectToAction(nameof(Index));
         }
 
@@ -98,6 +119,8 @@ namespace Simple_Shop.Controllers
         {
 
             var product = _context.Products.Find(id);
+            var categories = _context.Categories.ToList();
+            var groups = _context.CategoryToProducts.Where(c => c.ProductId == id).Select(s => s.CategoryId).ToList();
             UpdateProductVM model = new()
             {
                 Id = product.Id,
@@ -107,10 +130,15 @@ namespace Simple_Shop.Controllers
                 QuantityInStock = product.QuantityInStock,
                 Price = product.Price,
 
-                PicPath_Id = product.PicPath_Id
+                PicPath_Id = product.PicPath_Id,
+                Categories = categories,
+                SelectedGroup = groups
 
+              
 
             };
+
+            
 
             return View(model);
         }
@@ -140,7 +168,7 @@ namespace Simple_Shop.Controllers
             temp.Add(model.Pic5);
             temp.Add(model.Pic6);
             var upload = UploadFile(temp);
-            
+
             var pic = _context.PicPaths.Find(model.PicPath_Id);
             pic.Pic1Path = upload[0];
             pic.Pic2Path = upload[1];
@@ -165,6 +193,21 @@ namespace Simple_Shop.Controllers
 
             _context.Products.Update(product);
             _context.SaveChanges();
+            _context.CategoryToProducts.Where(c => c.ProductId == product.Id).ToList().ForEach(g => _context.CategoryToProducts.Remove(g));
+
+            if (model.SelectedGroup.Any() && model.SelectedGroup.Count() > 0)
+            {
+                foreach (int i in model.SelectedGroup)
+                {
+                    _context.CategoryToProducts.Add(new CategoryToProduct()
+                    {
+                        CategoryId = i,
+                        ProductId = product.Id
+
+                    });
+                }
+                _context.SaveChanges();
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -187,7 +230,7 @@ namespace Simple_Shop.Controllers
 
             string fileName = null;
 
-            
+
 
             List<string> st = new List<string>();
 
@@ -235,5 +278,7 @@ namespace Simple_Shop.Controllers
             }
 
         }
+
+       
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Simple_Shop.Data;
+using Simple_Shop.Data.Repositories;
 using Simple_Shop.Models;
 using Simple_Shop.Models.ViewModels;
 using System;
@@ -13,10 +14,12 @@ namespace Simple_Shop.Controllers
     public class HomeController : Controller
     {
         private DataBaseContext _context;
+        private IFilterRepository _filterRepository;
 
-        public HomeController(DataBaseContext context)
+        public HomeController(DataBaseContext context, IFilterRepository filterRepository)
         {
             _context = context;
+            _filterRepository = filterRepository;
         }
 
         public IActionResult Index()
@@ -25,6 +28,7 @@ namespace Simple_Shop.Controllers
 
             return View(product);
         }
+        [Route("Home/Detail/{id}")]
         public IActionResult Detail(int id)
         {
             var product = _context.Products.Include(p => p.PicPath).SingleOrDefault(p => p.Id == id);
@@ -137,5 +141,36 @@ namespace Simple_Shop.Controllers
 
             return RedirectToAction("ShowCart");
         }
+        [Route("Group/{id}/{name}")]
+        public IActionResult ShowProductByGroupId(int id, string name)
+        {
+            ViewData["GroupName"] = name;
+            var products = _context.CategoryToProducts
+                .Where(c => c.CategoryId == id)
+                .Include(c => c.Product).ThenInclude(p=>p.PicPath)
+                .Select(c => c.Product)
+                .ToList();
+            return View(products);
+        }
+        public IActionResult Like(int id)
+        {
+
+
+            var product = _context.Products.Find(id);
+            product.Likes += 1;
+            _context.Update(product);
+            _context.SaveChanges();
+
+            return RedirectToAction("Detail",product);
+
+        }
+
+        
+        public IActionResult Filter(ProductFilterViewModel model)
+        {
+            var result = _filterRepository.GetProducts(model).Include(p=>p.PicPath);
+            return View(result);
+        }
+
     }
 }

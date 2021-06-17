@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Simple_Shop.Models.ViewModels.ShowGroupViewModel>
+
+<h1>دسته بندی</h1>
+
+<br />
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="/Group/@item.Id/@item.Name">@item.Name</a>
+            <span class="badge badge-primary badge-pill">@item.ProductCount</span>
+        </li>
+    }
+</ul>

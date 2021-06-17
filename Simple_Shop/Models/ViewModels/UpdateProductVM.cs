@@ -32,5 +32,9 @@ namespace Simple_Shop.Models.ViewModels
         public IFormFile Pic4 { get; set; }
         public IFormFile Pic5 { get; set; }
         public IFormFile Pic6 { get; set; }
+
+
+        public List<Category> Categories { get; set; }
+        public IEnumerable<int> SelectedGroup { get; set; }
     }
 }
