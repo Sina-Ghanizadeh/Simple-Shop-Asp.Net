@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Simple_Shop.Data;
 
 namespace Simple_Shop.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210702092156_AddStatusTable")]
+    partial class AddStatusTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,6 +99,9 @@ namespace Simple_Shop.Migrations
                     b.Property<DateTime>("EditDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsFinaly")
+                        .HasColumnType("bit");
+
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
@@ -128,9 +133,6 @@ namespace Simple_Shop.Migrations
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("SumPrice")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("DetailId");
 

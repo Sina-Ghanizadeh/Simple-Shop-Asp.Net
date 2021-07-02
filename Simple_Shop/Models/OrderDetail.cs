@@ -21,7 +21,7 @@ namespace Simple_Shop.Models
         [Required]
         public int Count { get; set; }
 
-
+      
         public Order Order { get; set; }
         [ForeignKey("ProductId")]
         public Product Product { get; set; }

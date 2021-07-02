@@ -70,7 +70,7 @@ namespace Simple_Shop.Controllers
 
         public void AddProductToCart(Product product, decimal price)
         {
-            var order = _context.Orders.FirstOrDefault(o => !o.IsFinaly);
+            var order = _context.Orders.FirstOrDefault(o => o.StatusId==1);
 
             if (order != null)
             {
@@ -80,6 +80,7 @@ namespace Simple_Shop.Controllers
                 {
 
                     orderDetail.Count += 1;
+                    order.EditDate = DateTime.Now;
                 }
                 else
                 {
@@ -93,6 +94,7 @@ namespace Simple_Shop.Controllers
 
 
                     });
+                    order.EditDate = DateTime.Now;
                 }
             }
             else
@@ -100,8 +102,9 @@ namespace Simple_Shop.Controllers
                 order = new Order
                 {
 
-                    IsFinaly = false,
-                    CreateDate = DateTime.Now
+                    StatusId = 1,
+                    CreateDate = DateTime.Now,
+                    EditDate = DateTime.MinValue
 
                 };
                 _context.Orders.Add(order);
@@ -112,7 +115,8 @@ namespace Simple_Shop.Controllers
                     OrderId = order.OrderId,
                     ProductId = product.Id,
                     Price = price,
-                    Count = 1
+                    Count = 1,
+                    
 
 
                 });
@@ -124,7 +128,7 @@ namespace Simple_Shop.Controllers
         {
 
 
-            var order = _context.Orders.Where(o => !o.IsFinaly)
+            var order = _context.Orders.Where(o => o.StatusId==1)
                 .Include(o => o.OrderDetail)
                 .ThenInclude(c => c.Product).ThenInclude(u => u.PicPath).FirstOrDefault();
 
@@ -135,10 +139,17 @@ namespace Simple_Shop.Controllers
         {
 
             var orderDetail = _context.OrderDetails.Find(detailId);
-            _context.Remove(orderDetail);
+            orderDetail.Count -= 1;
+            if (orderDetail.Count==0)
+            {
+                _context.Remove(orderDetail);
+            }
+           
+            
+            var order = _context.Orders.Find(orderDetail.OrderId);
+            order.EditDate = DateTime.Now;
+            _context.Update(order);
             _context.SaveChanges();
-
-
             return RedirectToAction("ShowCart");
         }
         [Route("Group/{id}/{name}")]
@@ -170,6 +181,33 @@ namespace Simple_Shop.Controllers
         {
             var result = _filterRepository.GetProducts(model).Include(p=>p.PicPath);
             return View(result);
+        }
+        public IActionResult PayOrder(int OrderId)
+        {
+            var order = _context.Orders.Find(OrderId);
+
+            order.StatusId = 2;
+
+            _context.Update(order);
+            _context.SaveChanges();
+
+
+
+            return View("SuccessPay");
+        }
+
+        public IActionResult OrderList()
+        {
+            var order = _context.Orders.Include(o => o.OrderDetail).ToList();
+            return View(order);
+        }
+        public IActionResult OrderDetail(int id) {
+
+            var order = _context.Orders.Where(o => o.OrderId==id)
+                            .Include(o => o.OrderDetail)
+                            .ThenInclude(c => c.Product).ThenInclude(u => u.PicPath).FirstOrDefault();
+
+            return View(order);
         }
 
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Simple_Shop.Data;
 
 namespace Simple_Shop.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210702090500_AddUserIdAndEditDatePropertyToOrderTable")]
+    partial class AddUserIdAndEditDatePropertyToOrderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,15 +99,13 @@ namespace Simple_Shop.Migrations
                     b.Property<DateTime>("EditDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsFinaly")
+                        .HasColumnType("bit");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
-
-                    b.HasIndex("StatusId");
 
                     b.ToTable("Orders");
                 });
@@ -128,9 +128,6 @@ namespace Simple_Shop.Migrations
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("SumPrice")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("DetailId");
 
@@ -215,22 +212,6 @@ namespace Simple_Shop.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Simple_Shop.Models.Status", b =>
-                {
-                    b.Property<int>("StatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("StatusId");
-
-                    b.ToTable("Statuses");
-                });
-
             modelBuilder.Entity("Simple_Shop.Models.CategoryToProduct", b =>
                 {
                     b.HasOne("Simple_Shop.Models.Category", "Category")
@@ -248,17 +229,6 @@ namespace Simple_Shop.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Simple_Shop.Models.Order", b =>
-                {
-                    b.HasOne("Simple_Shop.Models.Status", "Status")
-                        .WithMany("Orders")
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("Simple_Shop.Models.OrderDetail", b =>
@@ -309,11 +279,6 @@ namespace Simple_Shop.Migrations
             modelBuilder.Entity("Simple_Shop.Models.Product", b =>
                 {
                     b.Navigation("CategoryToProducts");
-                });
-
-            modelBuilder.Entity("Simple_Shop.Models.Status", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

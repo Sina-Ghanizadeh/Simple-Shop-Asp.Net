@@ -20,6 +20,7 @@ namespace Simple_Shop.Data
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<CategoryToProduct> CategoryToProducts { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Status> Statuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

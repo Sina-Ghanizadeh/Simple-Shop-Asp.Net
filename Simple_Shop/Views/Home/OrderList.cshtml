@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Simple_Shop.Models.Order>
+
+@{
+    ViewData["Title"] = "OrderList";
+}
+
+<h1>OrderList</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Order Number
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EditDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.OrderId
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @if (item.EditDate == DateTime.MinValue)
+                    {
+                        <p>-----</p>
+                    }
+                    else
+                    {
+                        <p>@item.EditDate</p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+
+                @switch (item.StatusId)
+                {
+                    case 1:
+                        <td>پرداخت نشده</td>
+                        break;
+
+                    case 2:
+                        <td>پرداخت شده</td>
+                        break;
+                    case 3:
+                        <td>کنسل</td>
+                        break;
+                    case 4:
+                        <td>مرجوع</td>
+                        break;
+                }
+
+                <td>
+
+
+                    <a asp-action="OrderDetail" asp-route-id="@item.OrderId">Details</a>
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

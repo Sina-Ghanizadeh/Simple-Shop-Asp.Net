@@ -14,7 +14,7 @@
                 <th>Count</th>
                 <th>Price</th>
                 <th>Sum Price</th>
-                <th></th>
+                
 
             </tr>
         </thead>
@@ -32,10 +32,7 @@
                     <td>@(item.Price)</td>
                     <td>@(item.Price *item.Count)</td>
 
-                    <td>
-                        <a class="btn btn-danger" asp-action="RemoveItem"
-                           asp-controller="Home" asp-route-detailId="@item.DetailId">Remove</a>
-                    </td>
+                   
 
 
 
@@ -46,9 +43,9 @@
     </table>
     <div class="row">
         <h5 class="col-md-10">Sum : @Model.OrderDetail.Sum(s => s.Count * s.Price)</h5>
-        <a asp-action="PayOrder" asp-route-OrderId="@Model.OrderId" class="btn btn-success">پرداخت</a>
+        <a asp-action="OrderList" class="btn btn-secondary">Back</a>
     </div>
-   
+
 }
 else
 {
