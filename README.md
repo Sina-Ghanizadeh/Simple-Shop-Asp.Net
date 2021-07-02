@@ -14,6 +14,8 @@ Filter Product List By SoldCount / Newest / Price Range / Likes / Most Expensive
 Search Product By Title <br>
 Add to Cart <br> 
 Order<br>
+Status For Order<br>
+OrderList For see All Of Order<br>
 <hr>
 <br>
 Challenge By K1.Code
